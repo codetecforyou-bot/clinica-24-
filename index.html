@@ -1,0 +1,899 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Dra. Bruna Schardong Odontologia em Novo Hamburgo, RS. Atendimento de emergência 24 horas. Fale agora pelo WhatsApp.">
+<meta name="theme-color" content="#389997">
+<title>Dra. Bruna Schardong Odontologia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Hanken+Grotesk:wght@400;500;700&display=swap">
+<style>
+/* Layout: hero fixo (sticky) de ~3,4 telas; o vídeo em quadros no canvas avança com o scroll enquanto a moldura sai da inclinação 3D e toma a tela inteira; painel de vidro escuro com o texto; seções seguintes em fundo claro com cards em perspectiva; CTAs dourado claro. */
+:root {
+  --ink: #0b3a47;
+  --ink-soft: #3d6573;
+  --teal: #087f7a;
+  --teal-deep: #05605c;
+  --aqua: #7fe0d4;
+  --aqua-soft: #d6f5f0;
+  --sky: #9fd3f6;
+  --sky-soft: #e3f2fd;
+  --paper: #f0fbf9;
+  --gold-hi: #fff3c9;
+  --gold-lo: #f2d683;
+  --gold-edge: #c49a2c;
+  --gold-ink: #3b2a05;
+  --font-display: 'Bricolage Grotesque', 'Trebuchet MS', system-ui, sans-serif;
+  --font-body: 'Hanken Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --gutter: clamp(16px, 4vw, 32px);
+  color-scheme: light;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 1.0625rem/1.6 var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+main { overflow-x: clip; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.05; margin: 0; text-wrap: balance; letter-spacing: -0.02em; }
+p { margin: 0; }
+a { color: inherit; }
+.wrap { width: min(1120px, 100%); margin-inline: auto; padding-inline: var(--gutter); }
+:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; border-radius: 6px; }
+.eyebrow { font: 700 .78rem/1 var(--font-body); letter-spacing: .14em; text-transform: uppercase; color: var(--teal); margin-bottom: 14px; display: block; }
+.h2 { font-size: clamp(1.9rem, 4vw, 2.9rem); font-weight: 800; }
+
+/* ---------- botões dourado claro, em relevo ---------- */
+.btn {
+  position: relative; overflow: hidden; isolation: isolate;
+  display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+  font: 700 1.125rem/1.2 var(--font-body);
+  color: var(--gold-ink); text-decoration: none; text-align: center;
+  padding: 18px 30px; border-radius: 16px;
+  background: linear-gradient(180deg, var(--gold-hi) 0%, var(--gold-lo) 100%);
+  border: 1px solid #f7e3a0;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.95), 0 6px 0 var(--gold-edge), 0 18px 30px -8px rgba(150,105,5,.55), 0 0 26px rgba(243,214,131,.35);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.btn::after {
+  content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 40%; z-index: -1;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.75), transparent);
+  transform: translateX(-150%) skewX(-20deg); animation: sheen 5.5s ease-in-out infinite; will-change: transform;
+}
+@keyframes sheen { 0%, 62% { transform: translateX(-150%) skewX(-20deg); } 100% { transform: translateX(330%) skewX(-20deg); } }
+.btn:hover { transform: translateY(-2px); box-shadow: inset 0 1px 0 rgba(255,255,255,.95), 0 8px 0 var(--gold-edge), 0 22px 34px -8px rgba(150,105,5,.6), 0 0 34px rgba(243,214,131,.55); }
+.btn:active { transform: translateY(5px); box-shadow: inset 0 1px 0 rgba(255,255,255,.8), 0 1px 0 var(--gold-edge), 0 4px 10px -4px rgba(150,105,5,.6); }
+.btn:focus-visible { outline: none; box-shadow: inset 0 1px 0 rgba(255,255,255,.95), 0 6px 0 var(--gold-edge), 0 0 0 3px #fff, 0 0 0 6px var(--ink); }
+.btn svg { width: 24px; height: 24px; flex: none; }
+
+/* ---------- hero com vídeo 3D e scroll ---------- */
+.hero-scroll {
+  position: relative; height: 300vh; height: 300svh;
+  background: linear-gradient(180deg, var(--aqua-soft) 0%, var(--sky-soft) 100%);
+}
+.pin { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+.frame, .frame-shadow {
+  position: absolute; inset: 0; margin: auto; border-radius: 40px;
+  width: min(100%, calc(100vh * 16 / 9)); height: min(100%, calc(100vw * 9 / 16));
+  transform-origin: 50% 55%; will-change: transform;
+  transform: perspective(1600px) rotateX(12deg) rotateY(-14deg) scale(.84);
+}
+/* celular em pé: marca em cima, vídeo inteiro e o bloco do primeiro CTA logo abaixo, tudo fixo durante o scroll */
+.hero-brand, .pin-copy:empty { display: none; }
+.vwrap { display: contents; }
+@media (max-aspect-ratio: 1/1) {
+  .pin { display: flex; flex-direction: column; justify-content: center; gap: clamp(10px, 2.2svh, 18px); padding: 14px 16px; }
+  /* faixa verde da marca: vai do topo da tela até logo acima do vídeo, com a marca centralizada */
+  .hero-brand { display: flex; flex: none; align-items: center; justify-content: center; width: calc(100% + 32px); margin: 0 -16px;
+    padding: 0 24px 38px; background: #389997; border-radius: 0 0 28px 28px;
+    box-shadow: 0 -60svh 0 60svh #389997, 0 22px 30px -18px rgba(5,96,92,.65); }
+  .hero-brand img { display: block; width: min(78%, 330px); height: auto; }
+  .vwrap { display: block; position: relative; flex: none; width: 100%; aspect-ratio: 16 / 9; }
+  .frame, .frame-shadow { inset: 0; margin: 0; width: 100%; height: 100%; }
+  .pin-copy.intro { flex: none; background: none; padding: 0; }
+  .pin .pin-copy .wrap { padding: 0; width: 100%; max-width: none; gap: 8px; }
+  .pin .pin-copy .badges { margin-bottom: 8px; gap: 8px; }
+  .pin .pin-copy h1 { font-size: clamp(1.45rem, 6.6vw, 2rem); line-height: 1.08; }
+  .pin .pin-copy .lead { font-size: .95rem; margin: 0 0 10px; max-width: none; }
+  .pin .pin-copy .cta-row small { display: none; }
+}
+@media (max-aspect-ratio: 1/1) and (max-height: 720px) { .pin-copy .lead { display: none; } }
+.frame { overflow: hidden; background: linear-gradient(135deg, #bfeee8, #bfe0f7); backface-visibility: hidden; }
+.frame-shadow { box-shadow: 0 50px 90px -30px rgba(5,96,92,.6), 0 0 0 1px rgba(255,255,255,.7); will-change: transform, opacity; }
+.frame canvas { display: block; width: 100%; height: 100%; }
+/* faixa logo abaixo do hero: título e CTA */
+.intro { background: var(--sky-soft); padding-block: clamp(40px, 6vw, 72px) clamp(32px, 5vw, 56px); }
+.intro .wrap { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: clamp(24px, 5vw, 64px); align-items: end; }
+.intro .pill { background: var(--aqua-soft); color: var(--teal-deep); }
+.badges { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 18px; }
+.rating { display: inline-flex; align-items: center; gap: 8px; padding: 6px 13px 6px 11px; border-radius: 999px; background: #fff; color: var(--ink); font: 700 .8rem/1 var(--font-body); box-shadow: inset 0 -2px 0 var(--sky), 0 8px 16px -10px rgba(8,127,122,.5); }
+.stars { display: inline-flex; gap: 2px; }
+.stars svg { width: 15px; height: 15px; fill: #f5a623; }
+.stars-lg svg { width: 30px; height: 30px; filter: drop-shadow(0 3px 0 rgba(196,134,10,.35)); }
+.intro .pill i { background: #1fbf8f; box-shadow: 0 0 0 4px rgba(31,191,143,.22); }
+.intro h1 { font-size: clamp(2.3rem, 5.4vw, 4.2rem); font-weight: 800; color: var(--ink); }
+.intro .mark { color: var(--teal); background: linear-gradient(transparent 68%, var(--aqua) 68% 92%, transparent 92%); padding-inline: .04em; }
+.intro .lead { color: var(--ink-soft); font-size: clamp(1.05rem, 1.8vw, 1.25rem); max-width: 40ch; }
+.intro .cta-row small { color: var(--ink-soft); }
+@media (max-width: 920px) { .intro .wrap { grid-template-columns: minmax(0, 1fr); align-items: start; } }
+.intro .stage-wrap { display: block; padding-top: clamp(16px, 3vw, 32px); }
+.stage { position: relative; width: 100%; max-width: 600px; aspect-ratio: 4 / 3; margin-inline: auto; }
+.disc { position: absolute; left: 14%; right: 14%; bottom: 4%; height: 16%; border-radius: 50%; background: radial-gradient(ellipse at center, rgba(8,127,122,.35) 0%, rgba(8,127,122,0) 70%); filter: blur(6px); }
+.stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: pan-y; }
+.stage .fallback { position: absolute; left: 25%; top: 4%; width: 50%; height: 92%; }
+.stage.gl .fallback { display: none; }
+.chip {
+  position: absolute; padding: 10px 16px; border-radius: 14px; font-weight: 700; font-size: .92rem; line-height: 1.2; color: var(--ink);
+  background: rgba(255,255,255,.8); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,.95);
+  box-shadow: 0 14px 28px -12px rgba(11,58,71,.35), inset 0 1px 0 #fff; animation: bob 6s ease-in-out infinite;
+}
+.chip b { display: block; font: 800 1.5rem/1 var(--font-display); color: var(--teal); }
+.chip--a { top: 10%; right: 2%; }
+.chip--b { bottom: 14%; left: 2%; animation-delay: -3s; }
+@media (prefers-reduced-motion: reduce) { .chip { animation: none; } }
+.o { position: absolute; z-index: 2; border-radius: 50%; aspect-ratio: 1; will-change: transform, opacity; pointer-events: none;
+  background: radial-gradient(circle at 30% 28%, #fff 0 9%, var(--aqua) 42%, var(--teal) 100%);
+  box-shadow: 0 26px 40px -12px rgba(5,96,92,.55); }
+.o1 { width: clamp(70px, 11vw, 150px); left: 2.5%; top: 9%; }
+.o2 { width: clamp(40px, 6vw, 84px); right: 4%; top: 20%; background: radial-gradient(circle at 30% 28%, #fff 0 9%, var(--sky) 45%, #4ba3e3 100%); }
+.o3 { width: clamp(54px, 8vw, 110px); right: 7%; bottom: 14%; }
+.hint {
+  position: absolute; z-index: 4; top: clamp(14px, 4vh, 30px); left: 50%; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 10px; padding: 9px 16px; border-radius: 999px; white-space: nowrap;
+  background: rgba(255,255,255,.85); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  font: 700 .85rem/1 var(--font-body); color: var(--ink); box-shadow: 0 10px 24px -10px rgba(11,58,71,.5);
+}
+.hint svg { width: 16px; height: 16px; animation: nudge 1.6s ease-in-out infinite; }
+@keyframes nudge { 0%, 100% { transform: translateY(-2px); } 50% { transform: translateY(3px); } }
+.hero-copy {
+  position: absolute; z-index: 3; left: clamp(16px, 4vw, 56px); bottom: clamp(16px, 5vh, 56px);
+  width: min(560px, calc(100% - 32px)); padding: 24px 26px 26px; border-radius: 26px; color: #fff;
+  background: rgba(8,44,54,.74); -webkit-backdrop-filter: blur(14px) saturate(1.2); backdrop-filter: blur(14px) saturate(1.2);
+  border: 1px solid rgba(255,255,255,.2); box-shadow: 0 34px 56px -22px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.18);
+}
+.pill {
+  display: inline-flex; align-items: center; gap: 8px; padding: 7px 13px; border-radius: 999px;
+  background: rgba(127,224,212,.18); color: #b5f3ea; font: 700 .76rem/1 var(--font-body); letter-spacing: .1em; text-transform: uppercase;
+}
+.pill i { width: 8px; height: 8px; border-radius: 50%; background: #3fe0a8; box-shadow: 0 0 0 4px rgba(63,224,168,.22); }
+.copy { display: grid; margin-top: 16px; }
+.copy > div { grid-area: 1 / 1; will-change: opacity, transform; }
+.copy h1, .copy h2 { font-size: clamp(1.85rem, 4.4vw, 3.2rem); font-weight: 800; color: #fff; }
+.copy .mark { color: #94f2e6; }
+.copy .lead { margin-top: 12px; color: #d3eef0; font-size: clamp(1rem, 1.6vw, 1.15rem); max-width: 38ch; }
+.cta-row { margin-top: 22px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+.cta-row small { font-size: .88rem; color: #b9dde0; }
+.hero-scroll.static { height: auto; }
+.hero-scroll.static .pin { position: relative; }
+.hero-scroll.static .hint { display: none; }
+
+/* ---------- urgência ---------- */
+.urgent { padding-block: clamp(56px, 8vw, 96px); background: linear-gradient(180deg, var(--sky-soft) 0%, #f7fcff 100%); }
+.section-head { max-width: 640px; margin-bottom: 40px; }
+.section-head p { margin-top: 14px; color: var(--ink-soft); }
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.card {
+  --rx: 0deg; --ry: 0deg;
+  position: relative; min-width: 0;
+  background: linear-gradient(160deg, #09827d 0%, var(--teal-deep) 100%); color: #fff; border-radius: 22px; padding: 26px;
+  box-shadow: inset 0 -5px 0 rgba(0,0,0,.18), 0 26px 40px -24px rgba(5,96,92,.7);
+  transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry));
+  transform-style: preserve-3d; transition: transform .18s ease-out;
+}
+.card h3 { font-size: 1.25rem; font-weight: 800; transform: translateZ(18px); }
+.card p { margin-top: 8px; color: #f2fffd; font-size: .98rem; transform: translateZ(10px); }
+.ico {
+  width: 88px; height: 88px; border-radius: 24px; margin-bottom: 18px; display: block; overflow: hidden;
+  background: radial-gradient(circle at 30% 22%, #26b0a8 0%, #0b6561 55%, #054441 100%);
+  border: 1px solid rgba(255,255,255,.22);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 5px 0 #03302e, 0 14px 18px -8px rgba(0,0,0,.45);
+  transform: translateZ(34px);
+}
+.ico svg { display: block; width: 100%; height: 100%; }
+.safety { margin-top: 28px; padding: 16px 20px; border-radius: 16px; background: #fff; border: 2px dashed var(--sky); font-size: .95rem; color: var(--ink-soft); max-width: 760px; }
+.safety strong { color: var(--ink); }
+
+/* ---------- galeria antes e depois ---------- */
+.gallery { padding-block: clamp(56px, 8vw, 96px); background: linear-gradient(180deg, #f7fcff 0%, var(--aqua-soft) 100%); }
+.shots { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 3vw, 32px); align-items: center; }
+.shot {
+  --rx: 0deg; --ry: 0deg; margin: 0; min-width: 0; border-radius: 22px; overflow: hidden; background: var(--aqua);
+  box-shadow: 0 6px 0 #5fc4b8, 0 30px 44px -22px rgba(5,96,92,.6);
+  transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)); transition: transform .18s ease-out;
+}
+.shot img { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; }
+@media (max-width: 760px) {
+  .shots { grid-template-columns: minmax(0, 1fr); max-width: 460px; margin-inline: auto; }
+}
+@media (prefers-reduced-motion: reduce) { .shot { transition: none; } }
+
+/* ---------- sobre / descrição ---------- */
+.about { padding-block: clamp(56px, 8vw, 104px); background: #f7fcff; }
+.about .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .9fr); gap: clamp(32px, 6vw, 80px); align-items: center; }
+.about p { color: var(--ink-soft); margin-top: 18px; max-width: 52ch; }
+.about p strong { color: var(--ink); }
+.ficha-wrap { perspective: 1100px; padding: 20px 16px 36px; }
+.ficha {
+  --rx: 6deg; --ry: -12deg;
+  position: relative; background: #fff; border-radius: 26px; padding: 32px;
+  transform: rotateX(var(--rx)) rotateY(var(--ry)); transform-style: preserve-3d; transition: transform .2s ease-out;
+  box-shadow: 0 30px 50px -24px rgba(8,127,122,.5);
+}
+.ficha::before, .ficha::after { content: ""; position: absolute; inset: 0; border-radius: 26px; z-index: -1; }
+.ficha::before { background: var(--aqua); transform: translateZ(-26px) translate(16px, 16px); }
+.ficha::after { background: var(--sky); transform: translateZ(-52px) translate(32px, 32px); }
+.ficha h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 18px; transform: translateZ(24px); }
+.ficha ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; transform: translateZ(14px); }
+.ficha li { display: flex; gap: 14px; align-items: flex-start; font-weight: 500; }
+.ficha li::before {
+  content: ""; width: 22px; height: 22px; border-radius: 50%; flex: none; margin-top: 2px;
+  background: radial-gradient(circle at 30% 28%, #fff 0 12%, var(--aqua) 50%, var(--teal) 100%);
+  box-shadow: 0 3px 0 var(--teal-deep);
+}
+.ficha .place { margin-top: 22px; padding-top: 18px; border-top: 2px dotted var(--sky); font-size: .95rem; color: var(--ink-soft); transform: translateZ(10px); }
+
+/* ---------- faixas de CTA ---------- */
+.band { padding-block: clamp(32px, 5vw, 64px); }
+.panel {
+  position: relative; overflow: hidden; border-radius: 32px; padding: clamp(32px, 6vw, 64px);
+  display: grid; grid-template-columns: minmax(0, 1.3fr) auto; gap: 28px; align-items: center;
+}
+.panel h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; }
+.panel p { margin-top: 12px; max-width: 44ch; }
+.panel > * { position: relative; z-index: 1; }
+.panel--dark { background: linear-gradient(135deg, #0d8c86 0%, var(--ink) 100%); color: #fff; box-shadow: 0 6px 0 #04353b, 0 40px 60px -30px rgba(11,58,71,.7); }
+.panel--dark p { color: #cdeef0; }
+.panel--aqua { background: linear-gradient(135deg, var(--aqua-soft) 0%, var(--sky) 100%); box-shadow: 0 6px 0 #78b9e0, 0 40px 60px -30px rgba(40,120,170,.5); }
+.panel--aqua p { color: var(--ink-soft); }
+.orb { position: absolute !important; z-index: 0 !important; border-radius: 50%; background: radial-gradient(circle at 30% 28%, #fff 0 9%, var(--aqua) 42%, var(--teal) 100%); box-shadow: 0 18px 30px -10px rgba(0,0,0,.35); animation: bob 7s ease-in-out infinite; opacity: .9; }
+.orb--1 { width: 120px; height: 120px; right: -30px; top: -34px; }
+.orb--2 { width: 54px; height: 54px; right: 28%; bottom: -16px; animation-delay: -2s; }
+.orb--3 { width: 84px; height: 84px; left: -26px; bottom: -30px; animation-delay: -4s; }
+@keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+
+/* ---------- avaliações ---------- */
+.proof { background: var(--sky-soft); padding-block: clamp(48px, 7vw, 88px) clamp(24px, 4vw, 40px); }
+.proof .section-head { margin-bottom: 36px; }
+.proof .stars { margin-top: 16px; gap: 4px; }
+.proof .shot { background: #3b7a7f; }
+
+/* ---------- logos ---------- */
+.logos { background: var(--sky-soft); padding-block: 8px clamp(40px, 6vw, 72px); }
+.logos .wrap { display: flex; justify-content: center; }
+.logos-card {
+  --rx: 0deg; --ry: 0deg; margin: 0; width: min(480px, 100%); padding: clamp(18px, 4vw, 32px); border-radius: 26px; background: #fff;
+  box-shadow: inset 0 -5px 0 var(--sky), 0 30px 44px -24px rgba(8,127,122,.5);
+  transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)); transition: transform .18s ease-out;
+}
+.logos-card img { display: block; width: 100%; height: auto; }
+@media (prefers-reduced-motion: reduce) { .logos-card { transition: none; } }
+
+/* ---------- como funciona ---------- */
+.steps-sec { padding-block: clamp(48px, 7vw, 88px); }
+.steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; counter-reset: s; }
+.steps li { position: relative; padding-top: 76px; }
+.steps li::before {
+  counter-increment: s; content: counter(s);
+  position: absolute; top: 0; left: 0; width: 56px; height: 56px; border-radius: 50%;
+  display: grid; place-items: center; font: 800 1.5rem/1 var(--font-display); color: var(--teal-deep);
+  background: radial-gradient(circle at 30% 25%, #fff 0 10%, var(--aqua) 60%, #5fc4b8 100%);
+  box-shadow: 0 5px 0 #4cb0a4, 0 14px 18px -8px rgba(8,127,122,.5);
+}
+.steps li:not(:last-child)::after { content: ""; position: absolute; top: 28px; left: 72px; right: -8px; border-top: 3px dotted var(--sky); }
+.steps h3 { font-size: 1.25rem; font-weight: 800; }
+.steps p { margin-top: 8px; color: var(--ink-soft); max-width: 30ch; }
+
+/* ---------- faq ---------- */
+.faq { padding-block: clamp(48px, 7vw, 88px); background: linear-gradient(180deg, #f7fcff, var(--sky-soft)); }
+.faq .wrap { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(24px, 6vw, 72px); align-items: start; }
+details { background: #fff; border-radius: 18px; margin-bottom: 12px; box-shadow: inset 0 -3px 0 var(--sky), 0 14px 24px -18px rgba(8,127,122,.4); }
+summary { cursor: pointer; list-style: none; padding: 20px 56px 20px 22px; font-weight: 700; position: relative; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; border-radius: 50%; background: var(--aqua-soft); color: var(--teal-deep); display: grid; place-items: center; font-size: 1.2rem; line-height: 1; }
+details[open] summary::after { content: "–"; }
+details p { padding: 0 22px 22px; color: var(--ink-soft); }
+
+/* ---------- rodapé ---------- */
+footer { background: var(--ink); color: #d4ecee; padding-block: 56px 36px; }
+footer .cols { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 36px; }
+footer h3 { font: 700 .78rem/1 var(--font-body); letter-spacing: .14em; text-transform: uppercase; color: var(--aqua); margin-bottom: 14px; }
+footer .name { font: 800 1.5rem/1.1 var(--font-display); color: #fff; }
+footer p, footer address { font-style: normal; margin: 0; line-height: 1.7; overflow-wrap: anywhere; }
+footer a { text-underline-offset: 3px; }
+footer .copy-line { margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.14); font-size: .86rem; color: #9cc3c8; }
+
+/* ---------- responsivo ---------- */
+@media (max-width: 920px) {
+  .about .wrap, .faq .wrap { grid-template-columns: minmax(0, 1fr); }
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .panel { grid-template-columns: minmax(0, 1fr); }
+  footer .cols { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 640px) {
+  .grid { grid-template-columns: minmax(0, 1fr); }
+  .steps { grid-template-columns: minmax(0, 1fr); }
+  .steps li:not(:last-child)::after { display: none; }
+  .btn { width: 100%; }
+  .cta-row { align-items: stretch; }
+  .cta-row small { text-align: center; }
+  .hero-copy { padding: 20px 20px 22px; border-radius: 22px; }
+  .ficha { --ry: -6deg; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .btn::after, .orb, .hint svg { animation: none; }
+  .btn, .card, .ficha { transition: none; }
+}
+</style>
+</head>
+<body>
+
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="star" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3 6.1 20.6l1.3-6.6L2.5 9.4l6.6-.8z"/></symbol><defs><linearGradient id="gTooth" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#d4efe9"/></linearGradient>
+<linearGradient id="gBolt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe27a"/><stop offset="1" stop-color="#ff7a3d"/></linearGradient>
+<linearGradient id="gGum" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff9aae"/><stop offset="1" stop-color="#e0536f"/></linearGradient>
+<linearGradient id="gBlood" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff6a7c"/><stop offset="1" stop-color="#c81e3a"/></linearGradient>
+<linearGradient id="gGold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffeaa6"/><stop offset="1" stop-color="#d9a02e"/></linearGradient>
+<linearGradient id="gStar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff2b0"/><stop offset="1" stop-color="#ffc233"/></linearGradient></defs><symbol id="tooth" viewBox="-1.15 -1.35 2.3 3.2"><path d="M-1.05 -.55C-1.05 -1.15 -.55 -1.35 -.2 -1.05C-.1 -.95 .1 -.95 .2 -1.05C.55 -1.35 1.05 -1.15 1.05 -.55C1.05 0 .85 .3 .75 .9C.7 1.5 .45 1.9 .3 1.6C.2 1.2 .12 .7 0 .7C-.12 .7 -.2 1.2 -.3 1.6C-.45 1.9 -.7 1.5 -.75 .9C-.85 .3 -1.05 0 -1.05 -.55Z" fill="url(#gTooth)" stroke="#a9ddd6" stroke-width=".05"/><path d="M-.8 -.7C-.8 -.95 -.55 -1.05 -.4 -.9" fill="none" stroke="#fff" stroke-width=".09" stroke-linecap="round" opacity=".9"/></symbol></svg>
+
+<main id="inicio">
+  <section class="hero-scroll" id="hero">
+    <div class="pin">
+      <div class="hero-brand"><img src="img/marca.webp" width="900" height="296" alt="Bruna Schardong Odontologia"></div>
+      <div class="vwrap">
+        <div class="frame-shadow" id="fshadow" aria-hidden="true"></div>
+        <div class="frame" id="frame" role="img" aria-label="Vídeo em movimento de uma entrada em sala odontológica, com cadeira de atendimento ao fundo">
+          <canvas id="cv" aria-hidden="true"></canvas>
+        </div>
+      </div>
+      <div class="pin-copy intro" id="pincopy"></div>
+    </div>
+  </section>
+
+  <section class="intro" aria-labelledby="t-hero">
+    <div class="wrap">
+      <div>
+        <div class="badges">
+          <span class="pill"><i aria-hidden="true"></i>Emergência 24 horas · Novo Hamburgo</span>
+          <span class="rating" role="img" aria-label="Avaliação de 5 estrelas no Google">
+            <span class="stars" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg></span>
+            5 estrelas no Google
+          </span>
+        </div>
+        <h1 id="t-hero">Dor de dente às 3 da manhã? <span class="mark">A gente atende.</span></h1>
+      </div>
+      <div>
+        <p class="lead">Urgência odontológica a qualquer hora. Chame a Dra. Bruna no WhatsApp, conte o que está acontecendo e combine o atendimento.</p>
+        <div class="cta-row">
+          <a class="btn" href="https://wa.me/5551997651046" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.4-4.2A8 8 0 1 1 8.2 18.6z"/><path d="M9 11h.01M12 11h.01M15 11h.01" stroke-width="3"/></svg>
+            Falar no WhatsApp agora
+          </a>
+          <small>Contato direto, sem formulário e sem cadastro.</small>
+        </div>
+      </div>
+    </div>
+    <div class="wrap stage-wrap">
+      <div class="stage" id="stage">
+        <div class="disc" aria-hidden="true"></div>
+        <svg class="fallback" viewBox="-2 -2.2 4 4.4" aria-hidden="true">
+          <defs><linearGradient id="tg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#bfeee8"/></linearGradient></defs>
+          <g transform="scale(1,-1)"><path fill="url(#tg)" stroke="#7fe0d4" stroke-width=".06" d="M-1.05 .55C-1.05 1.15 -.55 1.35 -.2 1.05C-.1 .95 .1 .95 .2 1.05C.55 1.35 1.05 1.15 1.05 .55C1.05 0 .85 -.3 .75 -.9C.7 -1.5 .45 -1.9 .3 -1.6C.2 -1.2 .12 -.7 0 -.7C-.12 -.7 -.2 -1.2 -.3 -1.6C-.45 -1.9 -.7 -1.5 -.75 -.9C-.85 -.3 -1.05 0 -1.05 .55Z"/></g>
+        </svg>
+        <canvas id="gl" aria-hidden="true"></canvas>
+        <div class="chip chip--a" aria-hidden="true"><b>24 h</b>por dia</div>
+        <div class="chip chip--b" aria-hidden="true">Novo Hamburgo · RS</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="urgent" aria-labelledby="t-urg">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Quando procurar</span>
+        <h2 class="h2" id="t-urg">Situações que não dá para deixar para segunda-feira</h2>
+        <p>Se você se reconhece em alguma delas, chame agora. Quanto antes a avaliação, maior a chance de salvar o dente.</p>
+      </div>
+      <div class="grid">
+        <article class="card" data-tilt>
+          <span class="ico" aria-hidden="true"><svg viewBox="0 0 96 96" aria-hidden="true"><ellipse cx="48" cy="60" rx="17" ry="11" fill="#ff7a52" opacity=".5"/><use href="#tooth" x="26" y="8" width="44" height="61.2"/><path d="M53 15 40 41h9l-5 21 17-28h-9l5-19z" fill="url(#gBolt)" stroke="#fff4cf" stroke-width="1.2" stroke-linejoin="round"/><path d="M19 30q-6 10 0 20M12 25q-10 15 0 30M77 30q6 10 0 20M84 25q10 15 0 30" fill="none" stroke="#ff8a6b" stroke-width="3" stroke-linecap="round"/></svg></span>
+          <h3>Dor de dente forte</h3>
+          <p>Dor que não passa com remédio, acorda você de madrugada ou piora com frio, calor e ao mastigar.</p>
+        </article>
+        <article class="card" data-tilt>
+          <span class="ico" aria-hidden="true"><svg viewBox="0 0 96 96" aria-hidden="true"><use href="#tooth" x="26" y="8" width="44" height="61.2"/><path d="M48 15l-4 8 7 7-6 9 5 8" fill="none" stroke="#0b3a47" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M69 9l10 6-8 9z" fill="url(#gTooth)" stroke="#a9ddd6" stroke-width="1.2" stroke-linejoin="round"/><path d="M80 26l3 3M84 20l4 1M76 4l1 5" fill="none" stroke="#ffe27a" stroke-width="2.4" stroke-linecap="round"/></svg></span>
+          <h3>Dente quebrado ou trincado</h3>
+          <p>Lascou ao morder algo duro ou caiu um pedaço. Guarde o fragmento.</p>
+        </article>
+        <article class="card" data-tilt>
+          <span class="ico" aria-hidden="true"><svg viewBox="0 0 96 96" aria-hidden="true"><use href="#tooth" x="26" y="8" width="44" height="61.2"/><path d="M22 50q13-12 26-4q13-8 26 4v22H22z" fill="url(#gGum)"/><circle cx="68" cy="57" r="12" fill="#ff7390"/><ellipse cx="64" cy="52" rx="4" ry="3" fill="#fff" opacity=".55"/><path d="M82 42l5-4M84 54h6M82 66l5 4" fill="none" stroke="#ffd1d8" stroke-width="2.6" stroke-linecap="round"/></svg></span>
+          <h3>Inchaço na gengiva ou no rosto</h3>
+          <p>Com ou sem febre, o inchaço pede avaliação rápida.</p>
+        </article>
+        <article class="card" data-tilt>
+          <span class="ico" aria-hidden="true"><svg viewBox="0 0 96 96" aria-hidden="true"><use href="#tooth" x="26" y="8" width="44" height="61.2"/><path d="M22 50q13-12 26-4q13-8 26 4v14H22z" fill="url(#gGum)"/><path d="M36 62v6M52 62v14M64 62v6" fill="none" stroke="#c81e3a" stroke-width="3" stroke-linecap="round"/><path transform="translate(36 76)" d="M0-8C4-2 7 2 7 5a7 7 0 0 1-14 0c0-3 3-7 7-13z" fill="url(#gBlood)"/><path transform="translate(52 85) scale(.8)" d="M0-8C4-2 7 2 7 5a7 7 0 0 1-14 0c0-3 3-7 7-13z" fill="url(#gBlood)"/><path transform="translate(64 75) scale(.7)" d="M0-8C4-2 7 2 7 5a7 7 0 0 1-14 0c0-3 3-7 7-13z" fill="url(#gBlood)"/></svg></span>
+          <h3>Sangramento que não para</h3>
+          <p>Na gengiva ou depois de uma extração, sem estancar.</p>
+        </article>
+        <article class="card" data-tilt>
+          <span class="ico" aria-hidden="true"><svg viewBox="0 0 96 96" aria-hidden="true"><g transform="rotate(-16 48 40)"><use href="#tooth" x="26" y="8" width="44" height="61.2"/></g><path d="M8 32h12M4 44h14M8 56h12" fill="none" stroke="#fff" stroke-opacity=".75" stroke-width="3" stroke-linecap="round"/><polygon points="86,24 78.5,26.7 81.9,33.9 74.7,30.5 72,38 69.3,30.5 62.1,33.9 65.5,26.7 58,24 65.5,21.3 62.1,14.1 69.3,17.5 72,10 74.7,17.5 81.9,14.1 78.5,21.3" fill="url(#gStar)" stroke="#fff4cf" stroke-width="1.2" stroke-linejoin="round"/></svg></span>
+          <h3>Batida, queda ou acidente</h3>
+          <p>O dente mexeu, quebrou ou saiu da boca.</p>
+        </article>
+        <article class="card" data-tilt>
+          <span class="ico" aria-hidden="true"><svg viewBox="0 0 96 96" aria-hidden="true"><use href="#tooth" x="26" y="28" width="44" height="61.2"/><path d="M30 21V13Q30 8 36 9Q42 10 48 8Q54 10 60 9Q66 8 66 13V21Q48 28 30 21Z" fill="url(#gGold)" stroke="#fff1c0" stroke-width="1.4" stroke-linejoin="round"/><ellipse cx="48" cy="22" rx="14" ry="3" fill="#a87518" opacity=".55"/><path d="M34 13q5-3 10-1" fill="none" stroke="#fff" stroke-opacity=".8" stroke-width="2" stroke-linecap="round"/><path d="M77 26V10M71 16l6-6 6 6" fill="none" stroke="#ffe08a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <h3>Coroa ou restauração soltou</h3>
+          <p>Soltou, está machucando ou deixou o dente exposto.</p>
+        </article>
+      </div>
+      <p class="safety"><strong>Atenção:</strong> se houver dificuldade para respirar ou engolir, ou depois de uma pancada forte na cabeça, procure um pronto-atendimento hospitalar.</p>
+    </div>
+  </section>
+
+  <section class="gallery" aria-labelledby="t-gal">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Antes e depois</span>
+        <h2 class="h2" id="t-gal">Trabalhos da clínica</h2>
+      </div>
+      <div class="shots">
+        <figure class="shot" data-tilt><img src="img/caso-1.webp" width="640" height="640" decoding="async" alt="Arte da clínica com a frase: Seu sorriso reflete seu bem-estar. Cuide dele com quem entende do assunto."></figure>
+        <figure class="shot" data-tilt><img src="img/caso-2.webp" width="640" height="640" decoding="async" alt="Antes e depois de coroa Emax: à esquerda, dentes amarelados e desgastados; à direita, o resultado após o tratamento."></figure>
+        <figure class="shot" data-tilt><img src="img/caso-3.webp" width="640" height="640" decoding="async" alt="Antes e depois: dentes realinhados e contenção mecânica aplicada após um trauma."></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" aria-labelledby="t-about">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow">A clínica</span>
+        <h2 class="h2" id="t-about">Atendimento que não olha o relógio</h2>
+        <p>A clínica da <strong>Dra. Bruna Schardong</strong> fica na Av. Pedro Adams Filho, no bairro Operário, em Novo Hamburgo. Além do <strong>atendimento de emergência 24 horas</strong>, ela cuida da rotina da sua boca: avaliação, prevenção e tratamento.</p>
+        <p>Você fala direto pelo WhatsApp, explica a situação e recebe a orientação de como seguir. Sem formulário, sem fila de ligação.</p>
+      </div>
+      <div class="ficha-wrap">
+        <div class="ficha" data-tilt data-tilt-base="6,-12">
+          <h3>O que você encontra aqui</h3>
+          <ul>
+            <li>Atendimento de emergência 24 horas</li>
+            <li>Alívio da dor e controle de infecção</li>
+            <li>Avaliação e diagnóstico</li>
+            <li>Limpeza, prevenção e restaurações</li>
+          </ul>
+          <p class="place">Av. Pedro Adams Filho, 6520<br>Operário · Novo Hamburgo, RS</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-label="Chamar no WhatsApp">
+    <div class="wrap">
+      <div class="panel panel--dark">
+        <span class="orb orb--1" aria-hidden="true"></span>
+        <span class="orb orb--3" aria-hidden="true"></span>
+        <div>
+          <h2>Está com dor agora? Não precisa esperar abrir.</h2>
+          <p>A emergência odontológica funciona 24 horas. Mande uma mensagem e conte o que está sentindo.</p>
+        </div>
+        <a class="btn" href="https://wa.me/5551997651046" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.4-4.2A8 8 0 1 1 8.2 18.6z"/><path d="M9 11h.01M12 11h.01M15 11h.01" stroke-width="3"/></svg>
+          Chamar a Dra. Bruna
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="steps-sec" aria-labelledby="t-steps">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Como funciona</span>
+        <h2 class="h2" id="t-steps">Três passos até o atendimento</h2>
+      </div>
+      <ol class="steps">
+        <li><h3>Você chama no WhatsApp</h3><p>Um toque no botão abre a conversa com a clínica.</p></li>
+        <li><h3>Conta o que está sentindo</h3><p>Descreva a dor ou o que aconteceu. Se puder, envie uma foto.</p></li>
+        <li><h3>Combina o atendimento</h3><p>Você recebe a orientação e segue para a clínica.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="faq" aria-labelledby="t-faq">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow">Dúvidas</span>
+        <h2 class="h2" id="t-faq">O que as pessoas perguntam antes de chamar</h2>
+      </div>
+      <div>
+        <details>
+          <summary>Atendem mesmo de madrugada?</summary>
+          <p>A clínica tem atendimento de emergência 24 horas. Chame no WhatsApp e explique o que está acontecendo.</p>
+        </details>
+        <details>
+          <summary>O que faço enquanto aguardo?</summary>
+          <p>Se um pedaço do dente quebrou, guarde-o. Se o dente saiu inteiro, segure pela parte branca, sem esfregar a raiz, e mantenha-o úmido, por exemplo em leite. Não coloque comprimidos sobre a gengiva, pois podem queimar o tecido. Essas orientações não substituem a avaliação da Dra. Bruna.</p>
+        </details>
+        <details>
+          <summary>Onde fica a clínica?</summary>
+          <p>Av. Pedro Adams Filho, 6520, bairro Operário, Novo Hamburgo, RS, CEP 93310-002.</p>
+        </details>
+        <details>
+          <summary>Preciso ligar ou preencher cadastro?</summary>
+          <p>Não. O primeiro contato é pelo WhatsApp: você explica a situação e combina o atendimento.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="proof" aria-labelledby="t-proof">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Avaliações</span>
+        <h2 class="h2" id="t-proof">5 estrelas no Google</h2>
+        <p>Veja o que pacientes contam sobre o atendimento da Dra. Bruna.</p>
+        <span class="stars stars-lg" role="img" aria-label="Cinco estrelas de cinco"><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg></span>
+      </div>
+      <div class="shots">
+        <figure class="shot" data-tilt><img src="img/avaliacao-1.webp" width="800" height="800" decoding="async" alt="Avaliação de 5 estrelas de Pedro Schardong: Fiz um clareamento dental e o resultado foi excelente! O atendimento foi profissional e atencioso do início ao fim. Recomendo a todos que procuram um serviço de qualidade."></figure>
+        <figure class="shot" data-tilt><img src="img/avaliacao-3.webp" width="800" height="800" decoding="async" alt="Avaliação de 5 estrelas de Valentina Libio Peralta: Doutora muito atenciosa, explica antes de fazer o procedimento, superou nossas expectativas."></figure>
+        <figure class="shot" data-tilt><img src="img/avaliacao-2.webp" width="800" height="800" decoding="async" alt="Avaliação de 5 estrelas de Frederico Petry: Excelente profissional! Fez a melhor limpeza nos meus dentes."></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="logos" aria-label="Logos Krause Assistencial e OAB CAARS">
+    <div class="wrap">
+      <figure class="logos-card" data-tilt>
+        <img src="img/logos.webp" width="600" height="507" decoding="async" alt="Logos da Krause Assistencial, com o lema Viver bem todo dia, e da OAB CAARS, Rio Grande do Sul.">
+      </figure>
+    </div>
+  </section>
+
+  <section class="band" aria-label="Pedir atendimento">
+    <div class="wrap">
+      <div class="panel panel--aqua">
+        <span class="orb orb--2" aria-hidden="true"></span>
+        <span class="orb orb--1" aria-hidden="true"></span>
+        <div>
+          <h2>Seu sorriso não precisa esperar o horário comercial.</h2>
+          <p>Fale agora com a Dra. Bruna. A conversa é direta e o atendimento de emergência funciona 24 horas.</p>
+        </div>
+        <a class="btn" href="https://wa.me/5551997651046" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.4-4.2A8 8 0 1 1 8.2 18.6z"/><path d="M9 11h.01M12 11h.01M15 11h.01" stroke-width="3"/></svg>
+          Pedir atendimento agora
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <p class="name">Dra. Bruna Schardong</p>
+        <p>Odontologia com atendimento de emergência 24 horas em Novo Hamburgo.</p>
+        <p>Avaliação de 5 estrelas no Google.</p>
+      </div>
+      <div>
+        <h3>Contato</h3>
+        <p><a href="mailto:bruna.ackermann@yahoo.com.br">bruna.ackermann@yahoo.com.br</a></p>
+        <p><a href="tel:+5551997651046">(51) 99765-1046</a></p>
+        <p><a href="https://www.instagram.com/dra.bruna.schardong" target="_blank" rel="noopener">Instagram @dra.bruna.schardong</a></p>
+      </div>
+      <div>
+        <h3>Endereço</h3>
+        <address>Av. Pedro Adams Filho, 6520 - Operário, Novo Hamburgo - RS, 93310-002</address>
+      </div>
+    </div>
+    <p class="copy-line">© 2026 Dra. Bruna Schardong. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function () {
+  var reduce =window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  /* inclinação 3D dos cards */
+  if (canHover && !reduce) {
+    document.querySelectorAll('[data-tilt]').forEach(function (el) {
+      var base = (el.getAttribute('data-tilt-base') || '0,0').split(',').map(Number);
+      el.addEventListener('pointermove', function (e) {
+        var r = el.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width - 0.5;
+        var py = (e.clientY - r.top) / r.height - 0.5;
+        el.style.setProperty('--rx', (base[0] - py * 12).toFixed(2) + 'deg');
+        el.style.setProperty('--ry', (base[1] + px * 14).toFixed(2) + 'deg');
+      });
+      el.addEventListener('pointerleave', function () {
+        el.style.setProperty('--rx', base[0] + 'deg');
+        el.style.setProperty('--ry', base[1] + 'deg');
+      });
+    });
+  }
+
+  /* celular em pé: o bloco do primeiro CTA sobe para dentro do hero, logo abaixo do vídeo */
+  var pinCopy = document.getElementById('pincopy'), introSec = document.querySelector('.intro:not(.pin-copy)');
+  var introWrap = introSec.querySelector('.wrap:not(.stage-wrap)');
+  var portraitMQ = window.matchMedia('(max-aspect-ratio: 1/1)');
+  function placeCopy() {
+    if (portraitMQ.matches) { if (introWrap.parentNode !== pinCopy) pinCopy.appendChild(introWrap); }
+    else if (introWrap.parentNode !== introSec) introSec.insertBefore(introWrap, introSec.firstChild);
+  }
+  placeCopy();
+  if (portraitMQ.addEventListener) portraitMQ.addEventListener('change', placeCopy); else portraitMQ.addListener(placeCopy);
+
+  /* hero: vídeo em quadros controlado pelo scroll.
+     Telas grandes usam quadros Full HD, mas só os quadros próximos da rolagem ficam decodificados na memória. */
+  var N = 211;
+  var sec = document.getElementById('hero');
+  var frame = document.getElementById('frame');
+  var fshadow = document.getElementById('fshadow');
+  var cv = document.getElementById('cv');
+  var ctx = cv.getContext('2d', { alpha: false, desynchronized: true });
+  ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
+  var canBmp = typeof createImageBitmap === 'function' && typeof fetch === 'function';
+  var hd = canBmp && canHover &&
+    Math.max(window.innerWidth, window.innerHeight) * Math.min(window.devicePixelRatio || 1, 2) >= 1600 &&
+    (!navigator.deviceMemory || navigator.deviceMemory >= 4);
+  var keepAll = false;         /* só uma janela de quadros fica decodificada na memória (leve e HD) */
+  var WIN = 24;                 /* quadros decodificados ao redor da posição atual (mais à frente, na direção da rolagem) */
+  var AHEAD = 26, BEHIND = 10, dir = 1;
+  var budget = hd ? 2250000 : 1200000;
+  var blobs = new Array(N), bmp = new Array(N), pending = {};
+  var ci = 0;                  /* quadro central da janela */
+  var lastKey = '', lastP = -1, lastR = -1, dirty = true;
+  var cur = 0, tgt = 0, raf = 0, px = 0, py = 0;
+
+  function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+  function nearest(i) {
+    for (var d = 0; d < N; d++) {
+      if (bmp[i - d]) return i - d;
+      if (bmp[i + d]) return i + d;
+    }
+    return -1;
+  }
+  function size() {
+    var fw = frame.clientWidth, fh = frame.clientHeight;
+    if (!fw || !fh) return;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var k = Math.min(dpr, Math.sqrt(budget / (fw * fh)));
+    var w = Math.max(2, Math.round(fw * k)), h = Math.max(2, Math.round(fh * k));
+    if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; lastKey = ''; }
+  }
+  function paint(im, alpha) {
+    var cw = cv.width, ch = cv.height, iw = im.naturalWidth || im.width, ih = im.naturalHeight || im.height;
+    var s = Math.max(cw / iw, ch / ih), dw = iw * s, dh = ih * s;
+    ctx.globalAlpha = alpha;
+    ctx.drawImage(im, (cw - dw) * 0.5, (ch - dh) * 0.5, dw, dh);
+    ctx.globalAlpha = 1;
+  }
+  function draw(pos) {
+    var ia = nearest(clamp(Math.round(pos), 0, N - 1));
+    if (ia < 0 || ia === lastKey) return;
+    lastKey = ia;
+    paint(bmp[ia], 1);
+  }
+
+  /* decodificação sob demanda (HD) ou de todos os quadros (versão leve) */
+  function inWin(i, c) { var d = (i - c) * dir; return d >= -BEHIND && d <= AHEAD; }
+  function decode(i) {
+    if (bmp[i] || pending[i] || !blobs[i]) return;
+    pending[i] = 1;
+    createImageBitmap(blobs[i]).then(function (b) {
+      pending[i] = 0;
+      if (!keepAll && !inWin(i, ci) && Math.abs(i - ci) > 3) { b.close(); return; }
+      bmp[i] = b; if (Math.abs(i - Math.round(cur * (N - 1))) <= 2) { lastKey = ''; kick(true); }
+    }, function () { pending[i] = 0; });
+  }
+  var winKey = '';
+  function updateWindow(c) {
+    var k = c + ':' + dir;
+    if (k === winKey) return;
+    winKey = k; ci = c;
+    for (var i = 0; i < N; i++) {
+      if (!inWin(i, c) && Math.abs(i - c) > 3 && bmp[i]) { var old = bmp[i]; bmp[i] = null; if (old.close) old.close(); }
+    }
+    /* decodifica primeiro o que está mais perto da posição, e à frente na direção da rolagem */
+    for (var k2 = 0; k2 <= AHEAD; k2++) {
+      decode(c + dir * k2);
+      if (k2 <= BEHIND) decode(c - dir * k2);
+    }
+  }
+
+  function render(p, force) {
+    var t = clamp(p / 0.5, 0, 1), e = force ? 1 : t * t * (3 - 2 * t);
+    var rx = 12 * (1 - e) - py * 2.5 * (1 - e);
+    var ry = -14 * (1 - e) + px * 3.5 * (1 - e);
+    var tr = 'perspective(1600px) rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg) scale(' + (0.84 + 0.16 * e).toFixed(4) + ')';
+    frame.style.transform = tr;
+    fshadow.style.transform = tr;
+    fshadow.style.opacity = (1 - e).toFixed(3);
+    var r = Math.round(20 * (1 - e)) * 2;
+    if (r !== lastR) { frame.style.borderRadius = r + 'px'; lastR = r; }
+    if (canBmp) updateWindow(Math.round(p * (N - 1)));
+    draw(p * (N - 1));
+  }
+  function target() {
+    var r = sec.getBoundingClientRect();
+    var total = Math.max(sec.offsetHeight - window.innerHeight, 1);
+    return clamp(-r.top / total, 0, 1);
+  }
+  var lastT = 0;
+  function tick(ts) {
+    tgt = target();
+    var dt = lastT ? Math.min(ts - lastT, 50) : 16.7;
+    lastT = ts;
+    if (tgt !== cur) dir = tgt > cur ? 1 : -1;
+    cur += (tgt - cur) * (1 - Math.exp(-dt / 80));
+    if (Math.abs(tgt - cur) < 0.0004) cur = tgt;
+    if (cur !== lastP || dirty) { render(cur, false); lastP = cur; dirty = false; }
+    if (cur !== tgt) raf = requestAnimationFrame(tick); else { raf = 0; lastT = 0; }
+  }
+  function kick(d) {
+    if (d) dirty = true;
+    if (reduce || raf) return;
+    raf = requestAnimationFrame(tick);
+  }
+
+  /* baixa os quadros comprimidos: primeiro os próximos da posição inicial, depois uma amostra espaçada, depois o resto */
+  function src(i) { return (hd ? 'frames-hd/h' : 'frames/f') + ('00' + (i + 1)).slice(-3) + '.webp'; }
+  var start = Math.round((reduce ? 0.3 : target()) * (N - 1));
+  var order = [], seen = {};
+  function add(i) { if (i >= 0 && i < N && !seen[i]) { seen[i] = 1; order.push(i); } }
+  for (var d0 = 0; d0 <= WIN; d0++) { add(start + d0); add(start - d0); }
+  [8, 4, 2, 1].forEach(function (step) { for (var i = 0; i < N; i += step) add(i); });
+  var qi = 0;
+  function next() {
+    if (qi >= order.length) return;
+    var i = order[qi++];
+    if (!canBmp) {
+      var im = new Image();
+      im.decoding = 'async';
+      im.onload = function () { bmp[i] = im; lastKey = ''; kick(true); next(); };
+      im.onerror = next;
+      im.src = src(i);
+      return;
+    }
+    fetch(src(i)).then(function (r) { return r.blob(); }).then(function (b) {
+      blobs[i] = b;
+      if (keepAll || inWin(i, ci)) decode(i);
+      next();
+    }, next);
+  }
+  ci = start;
+  for (var c = 0; c < 6; c++) next();
+
+  size();
+  if (reduce) {
+    sec.classList.add('static');
+    size();
+    window.addEventListener('resize', function () { size(); lastKey = ''; render(0.3, true); });
+    var wait = setInterval(function () { if (nearest(start) >= 0) { lastKey = ''; render(0.3, true); if (bmp[start]) clearInterval(wait); } }, 250);
+    render(0.3, true);
+    return;
+  }
+  window.addEventListener('scroll', function () { kick(false); }, { passive: true });
+  window.addEventListener('resize', function () { size(); kick(true); });
+  if (canHover) {
+    sec.addEventListener('pointermove', function (e) {
+      px = (e.clientX / window.innerWidth - 0.5) * 2;
+      py = (e.clientY / window.innerHeight - 0.5) * 2;
+      kick(true);
+    });
+  }
+  tgt = cur = target();
+  render(cur, false);
+})();
+
+/* dente 3D girando (inicia depois do carregamento da página) */
+window.addEventListener('load', function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var stage = document.getElementById('stage');
+  var canvas = document.getElementById('gl');
+  if (!window.THREE || !stage || !canvas) return;
+  var T = window.THREE, renderer;
+  try {
+    renderer = new T.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+  } catch (err) { return; }
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+  renderer.outputEncoding = T.sRGBEncoding;
+  var scene = new T.Scene();
+  var camera = new T.PerspectiveCamera(35, 1, 0.1, 50);
+  camera.position.set(0, 0, 9);
+
+  scene.add(new T.AmbientLight(0xffffff, 0.7));
+  var key = new T.DirectionalLight(0xffffff, 1.0); key.position.set(3, 5, 6); scene.add(key);
+  var aquaL = new T.PointLight(0x62e0d2, 1.3, 24); aquaL.position.set(-5, 1, 4); scene.add(aquaL);
+  var skyL = new T.PointLight(0x7cc4f5, 1.1, 24); skyL.position.set(5, -3, 3); scene.add(skyL);
+
+  var s = new T.Shape();
+  s.moveTo(-1.05, 0.55);
+  s.bezierCurveTo(-1.05, 1.15, -0.55, 1.35, -0.2, 1.05);
+  s.bezierCurveTo(-0.1, 0.95, 0.1, 0.95, 0.2, 1.05);
+  s.bezierCurveTo(0.55, 1.35, 1.05, 1.15, 1.05, 0.55);
+  s.bezierCurveTo(1.05, 0.0, 0.85, -0.3, 0.75, -0.9);
+  s.bezierCurveTo(0.7, -1.5, 0.45, -1.9, 0.3, -1.6);
+  s.bezierCurveTo(0.2, -1.2, 0.12, -0.7, 0.0, -0.7);
+  s.bezierCurveTo(-0.12, -0.7, -0.2, -1.2, -0.3, -1.6);
+  s.bezierCurveTo(-0.45, -1.9, -0.7, -1.5, -0.75, -0.9);
+  s.bezierCurveTo(-0.85, -0.3, -1.05, 0.0, -1.05, 0.55);
+  var geo = new T.ExtrudeGeometry(s, { depth: 0.5, bevelEnabled: true, bevelThickness: 0.32, bevelSize: 0.28, bevelSegments: 10, curveSegments: 28 });
+  geo.center();
+  var tooth = new T.Mesh(geo, new T.MeshPhysicalMaterial({ color: 0xfdfefe, roughness: 0.28, metalness: 0, clearcoat: 1, clearcoatRoughness: 0.12 }));
+  var group = new T.Group();
+  group.add(tooth);
+  scene.add(group);
+
+  /* anel de 24 horas com ponteiro */
+  var ringGroup = new T.Group();
+  ringGroup.rotation.x = 1.15; ringGroup.rotation.z = -0.25;
+  ringGroup.add(new T.Mesh(new T.TorusGeometry(2.35, 0.025, 16, 160), new T.MeshStandardMaterial({ color: 0x7fe0d4, roughness: 0.3 })));
+  var hand = new T.Mesh(new T.SphereGeometry(0.13, 24, 24), new T.MeshStandardMaterial({ color: 0x087f7a, roughness: 0.2 }));
+  ringGroup.add(hand);
+  scene.add(ringGroup);
+
+  /* esferas flutuantes */
+  var orbs = [];
+  [[0x7fe0d4, 0.26, -2.9, 1.2, 0.8], [0x9fd3f6, 0.18, 3.0, 1.5, -0.4], [0x7fe0d4, 0.14, 2.6, -1.4, 1.0],
+   [0x9fd3f6, 0.3, -2.7, -1.5, 0.2], [0x5fc4b8, 0.1, 0.9, 2.2, 1.2], [0x9fd3f6, 0.12, -0.6, -2.3, 1.1]].forEach(function (o, i) {
+    var m = new T.Mesh(new T.SphereGeometry(o[1], 32, 32), new T.MeshStandardMaterial({ color: o[0], roughness: 0.2, transparent: true, opacity: 0.92 }));
+    m.position.set(o[2], o[3], o[4]);
+    scene.add(m);
+    orbs.push({ m: m, y: o[3], p: i * 1.3 });
+  });
+
+  var px = 0, py = 0, tx = 0, ty = 0, visible = true, raf = 0;
+  function size() {
+    var w = stage.clientWidth, h = stage.clientHeight;
+    if (!w || !h) return;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h; camera.updateProjectionMatrix();
+    if (reduce) draw(0);
+  }
+  function draw(t) {
+    px += (tx - px) * 0.06; py += (ty - py) * 0.06;
+    group.rotation.y = reduce ? -0.35 : t * 0.7 + px * 0.5;
+    group.rotation.x = reduce ? 0.08 : py * 0.3 + Math.sin(t * 0.4) * 0.05;
+    group.position.y = reduce ? 0 : Math.sin(t * 0.9) * 0.08;
+    ringGroup.rotation.y = reduce ? 0 : t * 0.15;
+    hand.position.set(Math.cos(t * 0.5) * 2.35, Math.sin(t * 0.5) * 2.35, 0);
+    orbs.forEach(function (o) { o.m.position.y = o.y + Math.sin(t * 0.8 + o.p) * 0.15; });
+    renderer.render(scene, camera);
+  }
+  function loop(ms) {
+    raf = 0;
+    if (!visible || document.hidden) return;
+    draw(ms / 1000);
+    raf = requestAnimationFrame(loop);
+  }
+  function start() { if (!reduce && !raf && visible && !document.hidden) raf = requestAnimationFrame(loop); }
+
+  stage.classList.add('gl');
+  size();
+  if ('ResizeObserver' in window) new ResizeObserver(size).observe(stage); else window.addEventListener('resize', size);
+  if (!reduce) {
+    stage.addEventListener('pointermove', function (e) {
+      var r = stage.getBoundingClientRect();
+      tx = ((e.clientX - r.left) / r.width - 0.5) * 2;
+      ty = ((e.clientY - r.top) / r.height - 0.5) * 2;
+    });
+    stage.addEventListener('pointerleave', function () { tx = 0; ty = 0; });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (en) { visible = en[0].isIntersecting; start(); }).observe(stage);
+    }
+    document.addEventListener('visibilitychange', start);
+    start();
+  } else { draw(0); }
+});
+</script>
+
+</body>
+</html>
