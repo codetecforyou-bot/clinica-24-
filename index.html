@@ -344,7 +344,7 @@ footer .copy-line { margin-top: 40px; padding-top: 20px; border-top: 1px solid r
 <main id="inicio">
   <section class="hero-scroll" id="hero">
     <div class="pin">
-      <div class="hero-brand"><img src="img/marca.webp" width="900" height="296" alt="Bruna Schardong Odontologia"></div>
+      <div class="hero-brand"><img src="marca.webp" width="900" height="296" alt="Bruna Schardong Odontologia"></div>
       <div class="vwrap">
         <div class="frame-shadow" id="fshadow" aria-hidden="true"></div>
         <div class="frame" id="frame" role="img" aria-label="Vídeo em movimento de uma entrada em sala odontológica, com cadeira de atendimento ao fundo">
@@ -442,9 +442,9 @@ footer .copy-line { margin-top: 40px; padding-top: 20px; border-top: 1px solid r
         <h2 class="h2" id="t-gal">Trabalhos da clínica</h2>
       </div>
       <div class="shots">
-        <figure class="shot" data-tilt><img src="img/caso-1.webp" width="640" height="640" decoding="async" alt="Arte da clínica com a frase: Seu sorriso reflete seu bem-estar. Cuide dele com quem entende do assunto."></figure>
-        <figure class="shot" data-tilt><img src="img/caso-2.webp" width="640" height="640" decoding="async" alt="Antes e depois de coroa Emax: à esquerda, dentes amarelados e desgastados; à direita, o resultado após o tratamento."></figure>
-        <figure class="shot" data-tilt><img src="img/caso-3.webp" width="640" height="640" decoding="async" alt="Antes e depois: dentes realinhados e contenção mecânica aplicada após um trauma."></figure>
+        <figure class="shot" data-tilt><img src="caso-1.webp" width="640" height="640" decoding="async" alt="Arte da clínica com a frase: Seu sorriso reflete seu bem-estar. Cuide dele com quem entende do assunto."></figure>
+        <figure class="shot" data-tilt><img src="caso-2.webp" width="640" height="640" decoding="async" alt="Antes e depois de coroa Emax: à esquerda, dentes amarelados e desgastados; à direita, o resultado após o tratamento."></figure>
+        <figure class="shot" data-tilt><img src="caso-3.webp" width="640" height="640" decoding="async" alt="Antes e depois: dentes realinhados e contenção mecânica aplicada após um trauma."></figure>
       </div>
     </div>
   </section>
@@ -539,9 +539,9 @@ footer .copy-line { margin-top: 40px; padding-top: 20px; border-top: 1px solid r
         <span class="stars stars-lg" role="img" aria-label="Cinco estrelas de cinco"><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg><svg viewBox="0 0 24 24"><use href="#star"/></svg></span>
       </div>
       <div class="shots">
-        <figure class="shot" data-tilt><img src="img/avaliacao-1.webp" width="800" height="800" decoding="async" alt="Avaliação de 5 estrelas de Pedro Schardong: Fiz um clareamento dental e o resultado foi excelente! O atendimento foi profissional e atencioso do início ao fim. Recomendo a todos que procuram um serviço de qualidade."></figure>
-        <figure class="shot" data-tilt><img src="img/avaliacao-3.webp" width="800" height="800" decoding="async" alt="Avaliação de 5 estrelas de Valentina Libio Peralta: Doutora muito atenciosa, explica antes de fazer o procedimento, superou nossas expectativas."></figure>
-        <figure class="shot" data-tilt><img src="img/avaliacao-2.webp" width="800" height="800" decoding="async" alt="Avaliação de 5 estrelas de Frederico Petry: Excelente profissional! Fez a melhor limpeza nos meus dentes."></figure>
+        <figure class="shot" data-tilt><img src="avaliacao-1.webp" width="800" height="800" decoding="async" alt="Avaliação de 5 estrelas de Pedro Schardong: Fiz um clareamento dental e o resultado foi excelente! O atendimento foi profissional e atencioso do início ao fim. Recomendo a todos que procuram um serviço de qualidade."></figure>
+        <figure class="shot" data-tilt><img src="avaliacao-3.webp" width="800" height="800" decoding="async" alt="Avaliação de 5 estrelas de Valentina Libio Peralta: Doutora muito atenciosa, explica antes de fazer o procedimento, superou nossas expectativas."></figure>
+        <figure class="shot" data-tilt><img src="avaliacao-2.webp" width="800" height="800" decoding="async" alt="Avaliação de 5 estrelas de Frederico Petry: Excelente profissional! Fez a melhor limpeza nos meus dentes."></figure>
       </div>
     </div>
   </section>
@@ -549,7 +549,7 @@ footer .copy-line { margin-top: 40px; padding-top: 20px; border-top: 1px solid r
   <section class="logos" aria-label="Logos Krause Assistencial e OAB CAARS">
     <div class="wrap">
       <figure class="logos-card" data-tilt>
-        <img src="img/logos.webp" width="600" height="507" decoding="async" alt="Logos da Krause Assistencial, com o lema Viver bem todo dia, e da OAB CAARS, Rio Grande do Sul.">
+        <img src="logos.webp" width="600" height="507" decoding="async" alt="Logos da Krause Assistencial, com o lema Viver bem todo dia, e da OAB CAARS, Rio Grande do Sul.">
       </figure>
     </div>
   </section>
@@ -744,7 +744,7 @@ footer .copy-line { margin-top: 40px; padding-top: 20px; border-top: 1px solid r
   }
 
   /* baixa os quadros comprimidos: primeiro os próximos da posição inicial, depois uma amostra espaçada, depois o resto */
-  function src(i) { return (hd ? 'frames-hd/h' : 'frames/f') + ('00' + (i + 1)).slice(-3) + '.webp'; }
+  function src(i) { return (hd ? 'h' : 'f') + ('00' + (i + 1)).slice(-3) + '.webp'; }
   var start = Math.round((reduce ? 0.3 : target()) * (N - 1));
   var order = [], seen = {};
   function add(i) { if (i >= 0 && i < N && !seen[i]) { seen[i] = 1; order.push(i); } }
